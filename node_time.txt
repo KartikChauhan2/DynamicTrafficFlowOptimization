@@ -1,0 +1,14 @@
+A D 6
+D C 8 
+D F 8 
+D I 8
+I G 8
+I M 6
+I K 8
+K N 8
+E F 4
+F B 6
+F H 8
+E J 8 
+J L 6
+L O 8 
