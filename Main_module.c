@@ -243,3 +243,40 @@ int** pixels_between_nodes(char *path[], int *num_pixels) {
     *num_pixels = result_count;
     return result;
 }
+int** pixels_of_nodes(char* source, char* destination) {
+    FILE* file = fopen("node_pixels.txt", "r");
+    if (!file) {
+        fprintf(stderr, "Error opening file: node_pixels.txt\n");
+        return NULL;
+    }
+    char line[100];
+    int** pixels = (int**)malloc(2 * sizeof(int*)); // To hold two sets of coordinates
+    pixels[0] = NULL;
+    pixels[1] = NULL;
+    while (fgets(line, sizeof(line), file)) {
+        char node[10];
+        int x, y;
+        if (sscanf(line, "%s %d,%d", node, &x, &y) == 3) {
+            if (strcmp(node, source) == 0) {
+                pixels[0] = (int*)malloc(2 * sizeof(int));
+                pixels[0][0] = x;
+                pixels[0][1] = y;
+            }
+            if (strcmp(node, destination) == 0) {
+                pixels[1] = (int*)malloc(2 * sizeof(int));
+                pixels[1][0] = x;
+                pixels[1][1] = y;
+            }
+        }
+        if (pixels[0] && pixels[1]) break;
+    }
+    fclose(file);
+    // Handle case where source or destination was not found
+    if (!pixels[0] || !pixels[1]) {
+        if (pixels[0]) free(pixels[0]);
+        if (pixels[1]) free(pixels[1]);
+        free(pixels);
+        return NULL;
+    }
+    return pixels;
+}
